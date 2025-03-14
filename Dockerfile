@@ -50,16 +50,20 @@ RUN /usr/bin/pip install supervisor
 RUN /usr/bin/pip install supervisor-stdout
 ADD ./supervisord.conf /etc/supervisord.conf
 
-# Install Wordpress
-ADD https://wordpress.org/latest.tar.gz /var/www/latest.tar.gz
-RUN cd /var/www && tar zxf latest.tar.gz && rm latest.tar.gz
-RUN rm -rf /var/www/html
-RUN mv /var/www/wordpress /var/www/html
+# 复制应用代码到容器中
+COPY huoma/ /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
-# Wordpress Initialization and Startup Script
-ADD ./start.sh /start.sh
-RUN chmod 755 /start.sh
+# # Install Wordpress
+# ADD https://wordpress.org/latest.tar.gz /var/www/latest.tar.gz
+# RUN cd /var/www && tar zxf latest.tar.gz && rm latest.tar.gz
+# RUN rm -rf /var/www/html
+# RUN mv /var/www/wordpress /var/www/html
+# RUN chown -R www-data:www-data /var/www/html
+
+# # Wordpress Initialization and Startup Script
+# ADD ./start.sh /start.sh
+# RUN chmod 755 /start.sh
 
 # private expose
 EXPOSE 80
